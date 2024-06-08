@@ -26,11 +26,10 @@ class LandingPage(Entity):
         )
         
         self.title = Text(
-            text = 'Classroom Simulation Game',
+            text = 'Campus Tour',
             parent = self.main_menu,
-            position = (-0.6, 0.35, 0),
-            scale = 2
-            
+            position = (-3, 3, 0),
+            scale = 25
         )
  
         self.start_button = Button (
@@ -139,17 +138,49 @@ class SettingPage(Entity):
         )
         self.music_dropdown.parent = self.game_settings
         
+         # Slider for music volume
+        self.music_volume_slider = Slider(
+            min=1,
+            max=100,
+            default=90,
+            position=(-3.8, -1, -0.02),
+            scale=(13, 13),
+            text='Music Volume',
+            enabled=False,
+            color=color.rgba(45/255, 80/255, 66/255, 0.6),
+            text_color=color.rgb(200/255, 200/255, 200/255)
+        )
+        self.music_volume_slider.parent = self.game_settings
+        
+         # Slider for mouse sensitivity
+        self.mouse_sensitivity_slider = Slider(
+            min=1,
+            max=5,
+            default=2.5,
+            position=(-3.3, -2, -0.02),
+            scale=(13, 13),
+            text='Mouse Sensitivity',
+            enabled=False,
+            color=color.rgba(45/255, 80/255, 66/255, 0.6),
+            text_color=color.rgb(200/255, 200/255, 200/255)
+        )
+        self.mouse_sensitivity_slider.parent = self.game_settings
+        
     def enable(self):
         super().enable()
         self.back_button.enabled = True
         self.container.enabled = True
         self.music_dropdown.enabled = True
+        self.music_volume_slider.enabled = True
+        self.mouse_sensitivity_slider.enabled = True
 
     def disable(self):
         super().disable()
         self.back_button.enabled = False
         self.container.enabled = False
         self.music_dropdown.enabled = False
+        self.music_volume_slider.enabled = False
+        self.mouse_sensitivity_slider.enabled = False
         
     def go_back(self):
         self.disable()
@@ -241,6 +272,9 @@ Setting = SettingPage()
 
 Setting.enabled = False
 # Main.enable = False
+
+music = Audio('assets/sound/music.mp3', loop=True, autoplay=True)
+music.volume = SettingPage.music_volume_slider.value
 
 def input(key):
     if key == 'escape':
